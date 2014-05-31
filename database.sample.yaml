@@ -19,6 +19,12 @@ format: 1
 # how to use mc_pillar to manage your infrastructure
 #
 
+
+#
+# This configuration structure would answer to the IAAS
+# layer of a cloud service.
+#
+
 #
 # LDAP configuration for the ldap master of your infrastructure
 #
