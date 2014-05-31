@@ -8,12 +8,16 @@ makina-states.services.dns.bind: true
 {%- for s in slaves %}
 {%-   do slavesips.append('key "{0}"'.format(salt['mc_pillar.ip_for'](s))) %}
 {%- endfor %}
+{% if not slaves %}
+ERROR for {{domain}}
+{% else %}
   allow_transfer: {{slavesips}}
   serial: {{salt['mc_pillar.serial_for'](domain) }}
-  soa_ns: {{slaves[0]}}.
+  soa_ns: {{slaves.keys()[0]}}.
   soa_contact: postmaster.{{domain}}.
   rrs: |
 {{salt['mc_pillar.rrs_for'](domain)}}
+{% endif %}
 {% endmacro %}
 
 {%set altdomains = [] %}
