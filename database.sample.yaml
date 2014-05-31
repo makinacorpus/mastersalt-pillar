@@ -532,6 +532,10 @@ managed_alias_zones:
 # Please also note that slaves will be addressable through the "id.<domain.tld>" and not
 # their real hostname.
 #
+# Please note that the master/slave communication is for the moment only secured
+# via TSIG signature. DNSSEC is not yet enabled by default.
+#
+#
 dns_servers:
   default:
     master: provider1-dc1-1.mydomain.tld
