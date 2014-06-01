@@ -45,6 +45,35 @@ ldap_configurations:
 # Configuration of hosts based on toggle switch and core
 # key values informations
 #
+#   - manage_ssh_ip_restrictions: if on, restrict ssh access to ips in default_allowed_ips_names
+#   - mastersalt:  configure the mastersalt Minion id/real FQDN
+#   - mastersaltdn: configure the mastersalt uri
+#   - mastersalt_port: configure the mastersalt port
+#   - domain: mydomain.tld
+#   - mastersalt_master: switch to configure this host as a mastersalt master
+#   - cloud_master: switch to configure this host as a cloud master
+#   - manage_autoupgrades: switch to activate postupgrade
+#   - manage_packages: switch to configure the package manager
+#   - manage_mails: switch to enable mail client/server on that box
+#   - manage_ssh_groups: switch to configure ssh allowed groups
+#   - manage_ssh_keys: switch to configure ssh keys for configured users
+#   - manage_ssh_ip_restrictions: false
+#   - manage_passwords: switch to configure passwords for root,
+#                       sysadmin and other configured system users
+#   - manage_sudoers: switch to configure sudoers
+#   - manage_network: switch to manage network interfaces
+#   - manage_snmpd: switch to configure snmpd (v3), see snmpd_settings
+#   - manage_hosts: switch to configure /etc/hosts
+#   - manage_shorewall: switch to activate and configure shorewall
+#   - manage_fail2ban: switch to activate and configure fail2ban
+#   - manage_ntp_server: manage a ntp server on that box
+#   - backup_mode: backup mode to use, only avalaible for now is 'burp', see burp_configurations
+#   - mail_mode: mail mode to use, only avalaible for now is 'relay', see mail_configurations
+#   - default_env: prod
+#   - ldap_client: does this host needs to wire it's PAM & NSS to a ldap server
+#   - manage_backups: switch to enable backups on that box
+#   - backup_mode: backup method for this host
+#
 configurations:
   default:
     mastersalt: provider1-dc1-1.mydomain.tld
@@ -60,7 +89,7 @@ configurations:
     manage_passwords: true
     manage_ssh_groups: true
     manage_ssh_keys: true
-    manage_passwords: true
+    manage_ssh_ip_restrictions: false
     manage_sudoers: true
     manage_network: true
     manage_snmpd: true
