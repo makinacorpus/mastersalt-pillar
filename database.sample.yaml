@@ -519,7 +519,7 @@ mx_map:
     mailhub.mydomain.tld: {}
   my-domain.com:
     mx.my-domain.com: {priority: 10}
-    mail2.my-domain.com: {priority': 50}
+    mail2.my-domain.com: {priority: 50}
   my-domain.eu:
     mx.my-domain.eu: {}
   mydomain.eu:
