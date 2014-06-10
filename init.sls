@@ -21,6 +21,9 @@ include:
   {% endif %}
 {#
 #}
+  {% if salt['mc_pillar.is_burp_server'](id)%}
+  - makina-states.burp
+  {% endif %}
   {% if id in salt['mc_pillar.get_nss']()['masters'] %}
   - makina-states.dns.master
   {% endif %}
