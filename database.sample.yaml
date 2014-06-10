@@ -182,7 +182,7 @@ vms:
 # domains is one of the attributes you would easily set.
 #
 cloud_vm_attrs:
-  provider1-dc1-7.mydomain.tld:
+  prod-app7.mydomain.tld:
     domains: [app2-developpement.com, app2.mydomain.tld]
   provider1-dc1-1.mydomain.tld:
     domains: [api.app1.mydomain.tld, ui.app1.mydomain.tld]
@@ -519,7 +519,7 @@ mx_map:
     mailhub.mydomain.tld: {}
   my-domain.com:
     mx.my-domain.com: {priority: 10}
-    mail2.my-domain.com: {priority': 50}
+    mail2.my-domain.com: {priority: 50}
   my-domain.eu:
     mx.my-domain.eu: {}
   mydomain.eu:
