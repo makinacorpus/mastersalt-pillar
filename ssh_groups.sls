@@ -4,3 +4,4 @@
 makina-states.services.base.ssh.server.allowgroups: {{salt['mc_pillar.get_ssh_groups'](dn)|yaml}}
 {% endmacro %}
 {{set_ssh_groups(opts.id)}}
+makina-states.services.base.ssh.server.chroot_sftp: true
