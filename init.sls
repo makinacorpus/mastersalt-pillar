@@ -24,10 +24,14 @@ include:
   {% if salt['mc_pillar.is_burp_server'](id)%}
   - makina-states.burp
   {% endif %}
-  {% if id in salt['mc_pillar.get_nss']()['masters'] %}
+  {% if (salt['mc_pillar.is_ldap_master'](id)
+         or salt['mc_pillar.is_ldap_slave'](id)) %}
+  - makina-states.slapd
+  {% endif %}
+  {% if salt['mc_pillar.is_dns_master'](id) %}
   - makina-states.dns.master
   {% endif %}
-  {% if id in salt['mc_pillar.get_nss']()['slaves'] %}
+  {% if salt['mc_pillar.is_dns_slave'](id) %}
   - makina-states.dns.slave
   {% endif %}
   {% if gconf.cloud_master %}
