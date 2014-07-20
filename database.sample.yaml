@@ -124,8 +124,6 @@ configurations:
     mastersalt_master: true
     cloud_master: true
     cloud_images:
-      makina-states.cloud.images.lxc.images.makina-states-precise:
-        builder_ref: msr-lxc-ref.mydomain.tld
       makina-states.cloud.images.lxc.images.makina-states-trusty:
         builder_ref: msr-lxc-trusty-ref.mydomain.tld
 
