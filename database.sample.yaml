@@ -600,6 +600,10 @@ backup_configuration_map:
   foo.makina-corpus.net: foo.makina-corpus.net
 
 
+# salt not managed hosts that we backup
+backup_manual_hosts:
+  - foo.makina-corpus.net
+
 # if we do not provide an explicit conf it defaults either to baremetal or vm
 backup_configurations:
   baremetal:
