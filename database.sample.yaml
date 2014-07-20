@@ -41,6 +41,19 @@ ldap_configurations:
       ssl: "start_tls"
 
 
+ldap_maps:
+  default:
+    cert_domain: ldap.foo.net
+    dn: 'dc=foo,dc=org'
+    root_dn: ''
+    root_pw: ''
+    config_pw: ''
+  masters:
+    foo.makina-corpus.net: {}
+  slaves: {}
+#    bar.makina-corpus.net: {}
+
+
 #
 # Configuration of hosts based on toggle switch and core
 # key values informations
@@ -187,6 +200,16 @@ cloud_vm_attrs:
   provider1-dc1-1.mydomain.tld:
     domains: [api.app1.mydomain.tld, ui.app1.mydomain.tld]
 
+
+# cloud compute node properties
+cloud_cn_attrs:
+  hostfoo-1-1.makina-corpus.net:
+    haproxy:
+      raw_opts_pre:
+        - acl host_dev-foo.makina-corpus.net  hdr(host) -i dev-foo.makina-corpus.net
+      raw_opts_post:
+        - use_backend bck_dev-foo.makina-corpus.net if host_dev-foo.makina-corpus.net
+
 # manual hosts provisionning
 standalone_hosts:
   provider2-1.mydomain.tld: {}
@@ -271,6 +294,10 @@ snmpd_settings:
 #
 # FQDN indexed map of keys to allow on a specific tenant (vm or host)
 #
+removed_keys_map:
+  default: []
+#  default: [foo]
+
 sysadmins_keys_map:
   default: [infra, bbb, aaa]
 

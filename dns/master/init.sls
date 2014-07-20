@@ -3,21 +3,24 @@ makina-states.services.dns.bind: true
 # for each dns zones declared in the database, make the appropriate
 # pillar entry for it
 {% macro rrs(domain) %}
-{%- set slaves  = salt['mc_pillar.get_nss_for_zone'](domain)['slaves'] %}
+{%- set infos  = salt['mc_pillar.get_nss_for_zone'](domain) %}
+{%- set master  = infos['master'] %}
+{%- set slaves  = infos['slaves'] %}
 {%- set slavesips = [] %}
 {%- for s in slaves %}
 {%-   do slavesips.append('key "{0}"'.format(salt['mc_pillar.ip_for'](s))) %}
 {%- endfor %}
-{% if not slaves %}
-ERROR for {{domain}}
-{% else %}
+{% if slaves %}
   allow_transfer: {{slavesips}}
+  {% set soans = slaves.keys()[0] %}
+{% else %}
+  {% set soans = master %}
+{% endif %}
   serial: {{salt['mc_pillar.serial_for'](domain) }}
-  soa_ns: {{slaves.keys()[0]}}.
+  soa_ns: {{soans}}.
   soa_contact: postmaster.{{domain}}.
   rrs: |
 {{salt['mc_pillar.rrs_for'](domain)}}
-{% endif %}
 {% endmacro %}
 
 {%set altdomains = [] %}
@@ -38,9 +41,10 @@ makina-states.services.dns.bind.zones.{{altdomain}}:
 {%  endfor %}
 {% endfor %}
 
-# slave tsig declaration
 {% set dnsslaves = salt['mc_pillar.get_slaves_for'](
                               opts['id'])['all']  %}
+{% if dnsslaves %}
+# slave tsig declaration
 makina-states.services.dns.bind.slaves:
   {%for slv in dnsslaves%}
   - {{salt['mc_pillar.ip_for'](slv)}}
@@ -51,3 +55,4 @@ makina-states.services.dns.bind.slaves:
 makina-states.services.dns.bind.servers.{{salt['mc_pillar.ip_for'](dn)}}:
   keys: [{{salt['mc_pillar.ip_for'](dn)}}]
 {% endfor %}
+{% endif %}
