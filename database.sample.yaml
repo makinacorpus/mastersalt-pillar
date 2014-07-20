@@ -588,7 +588,89 @@ dns_servers:
 # Having a tenant under a backup server obvisously mean that
 # this tenant is backuped by this backup server.
 #
-burp_configurations:
+backup_servers:
+  ovh.makina-corpus.net: {default_type: burp, types: [burp]}
+
+backup_server_map:
+  default: ovh.makina-corpus.net
+
+backup_configuration_map:
+  default: baremetal
+  default-vm: vm
+  foo.makina-corpus.net: foo.makina-corpus.net
+
+
+# if we do not provide an explicit conf it defaults either to baremetal or vm
+backup_configurations:
+  baremetal:
+    include:
+      - /
+      - /backup
+      - /data
+      - /etc
+      - /home
+      - /srv
+      - /srv/backups
+      - /static
+      - /var/
+      - /var/makina
+    cross_filesystem:
+      - /backup
+      - /data
+      - /etc
+      - /home
+      - /srv
+      - /srv/backups
+      - /static
+      - /var
+      - /var/makina
+    exclude_regex:
+      - ".*lost.found.*"
+      - ".*makina-states.*-lxc.*.tar.*xz.*"
+      - ".*srv.*mastersalt.*makina-states.*"
+      - ".*srv.*projects.*archives.*"
+      - ".*srv.*salt.*makina-states.*"
+      - ".*var.*cache.*apt.*"
+      - ".*var.*cache.*salt.*master.*"
+      - ".*var.*cache.*salt.*minion.*"
+      - ".*var.*lib.*apt.*lists.*"
+      - ".*var.*lib.*lxc.*del.*"
+      - ".*var.*lib.*lxc.*makina-states.*tmp.*"
+      - ".*spool.*cyrus.*backup_log.*"
+      - ".*var.*lib.*lxc.*rootfs.*"
+      - ".*var.*lock.*"
+      - ".*var.*log.*atop.*"
+      - ".*var.*run.*"
+      - ".*var.*tmp.*"
+    exclude:
+      - "/dev"
+      - "/proc"
+      - "/sys"
+      - "/tmp/"
+  vm:
+    cross_filesystem:
+      - /backup
+      - /data
+      - /etc
+      - /home
+      - /srv
+      - /srv/backups
+      - /static
+      - /var
+      - /var/makina
+    include:
+      - /backup
+      - /data
+      - /etc
+      - /srv/backups
+      - /srv/mastersalt
+      - /srv/mastersalt-pillar
+      - /srv/pillar
+      - /srv/projects
+      - /srv/salt
+      - /static
+      - /var
+      - /var/makina
   provider2-1.mydomain.tld:
     provider24-1.mydomain.tld:
       include:
@@ -682,7 +764,7 @@ burp_configurations:
         - "/var/run/nscd/socket"
         - "/var/run/saslauthd/mux"
         - "/var/run/slapd/ldapi"
-    prod-superproject-2.mydomain.tld:
+   foo.makina-corpus.net:
       ssh_gateway: provider24-1.mydomain.tld
       include:
         - /backup
