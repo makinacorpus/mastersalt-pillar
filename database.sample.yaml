@@ -245,19 +245,19 @@ default_allowed_ips_names:
 # as root
 #
 keys_map:
-  infra:
-    - supervision.pub
-    - backup.pub
-    - mastersalt.pub
-    - mastersalt-dsa.pub
-  bbb:
-    - bbb.pub
-  aaa:
-    - nickname3.pub
-    - nickname3_dsa.pub
-    - nickname33.pub
-    - nickname34.pub
 
+# list of sysadmins: key is the trigramme and value is a list of
+#   ssh public keys for the sysadmin
+keys_map:
+  infra:
+    - 'ssh-dss AAAAccccc='
+    - 'ssh-dss AAAABeeeevJ'
+  aaa:
+    - 'ssh-dss AAAAccccc='
+    - 'ssh-dss AAAABeeeevJ'
+  bbb:
+    - 'ssh-dss AAAAccccc='
+    - 'ssh-dss AAAABeeeevJ'
 
 #
 # Default snmpdv3 settings to set on a box
