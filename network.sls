@@ -11,7 +11,7 @@ makina-states.localsettings.hostname: {{fqdn.split('.')[0]}}
 {% set ipsfo = net.ipsfo %}
 {% set ipsfo_map = net.ipsfo_map %}
 
-{% macro manage_baremetal_network(fqdn, thisip=None, thisipfos=None, ifc='eth0') %}
+{% macro manage_baremetal_network(fqdn, thisip=None, thisipfos=None, ifc='', out_nic='eth0') %}
 {%  if not thisip %}
 {%    set thisip=ips[fqdn][0] %}
 {%  endif %}
@@ -23,6 +23,22 @@ makina-states.localsettings.hostname: {{fqdn.split('.')[0]}}
 {%    endfor %}
 {%  endif %}
 {{manage_network_common(fqdn)}}
+{% if 'br' in ifc %}
+# br0: we use br0 as main interface with by defaultonly one port*
+# to escape to internet
+makina-states.localsettings.network.ointerfaces:
+  - {{ifc}}:
+      address: {{thisip}}
+      bridge_ports: {{out_nic}}
+      broadcast: {{salt['mc_network.get_broadcast'](fqdn, thisip) }}
+      netmask: {{salt['mc_network.get_netmask'](fqdn, thisip) }}
+      gateway: {{salt['mc_network.get_gateway'](fqdn, thisip) }}
+      dnsservers: {{salt['mc_network.get_dnss'](fqdn, thisip) }}
+  - {{out_nic}}:
+      mode: manual
+{% else %}
+{% set ifc = main_nic %}
+# eth0/em0; do not use bridge but a real interface
 makina-states.localsettings.network.ointerfaces:
   - {{ifc}}:
       address: {{thisip}}
@@ -30,6 +46,7 @@ makina-states.localsettings.network.ointerfaces:
       netmask: {{salt['mc_network.get_netmask'](fqdn, thisip) }}
       gateway: {{salt['mc_network.get_gateway'](fqdn, thisip) }}
       dnsservers: {{salt['mc_network.get_dnss'](fqdn, thisip) }}
+{% endif %}
 {% if thisipfos %}
 {% for thisipfo in thisipfos %}
   - {{ifc}}_{{loop.index0}}:
@@ -61,7 +78,8 @@ makina-states.localsettings.network.ointerfaces:
 
 {% if opts['id'] not in net.non_managed_hosts %}
 {%  if opts['id'] in net.baremetal_hosts %}
-{{    manage_baremetal_network(opts['id']) }}
+# always use bridge as main_if
+{{    manage_baremetal_network(opts['id'], ifc='br0') }}
 {%  else %}
 {%    for vt, targets in net.vms.items() %}
 {%      if vt == 'kvm' %}
