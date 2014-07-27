@@ -634,6 +634,7 @@ backup_configurations:
   baremetal:
     include:
       - /
+      - /boot
       - /backup
       - /data
       - /etc
@@ -645,6 +646,7 @@ backup_configurations:
       - /var/makina
     cross_filesystem:
       - /backup
+      - /boot
       - /data
       - /etc
       - /home
@@ -654,6 +656,7 @@ backup_configurations:
       - /var
       - /var/makina
     exclude_regex:
+      - ".*nobackup.*"
       - ".*lost.found.*"
       - ".*makina-states.*-lxc.*.tar.*xz.*"
       - ".*srv.*mastersalt.*makina-states.*"
@@ -676,8 +679,36 @@ backup_configurations:
       - "/proc"
       - "/sys"
       - "/tmp/"
+    exclude_regex:
+      - ".*nobackup.*"
+      - ".*lost.found.*"
+      - ".*makina-states.*-lxc.*.tar.*xz.*"
+      - ".*srv.*mastersalt.*makina-states.*"
+      - ".*srv.*projects.*archives.*"
+      - ".*srv.*salt.*makina-states.*"
+      - ".*var.*cache.*apt.*"
+      - ".*var.*cache.*salt.*master.*"
+      - ".*var.*cache.*salt.*minion.*"
+      - ".*var.*lib.*apt.*lists.*"
+      - ".*var.*lib.*lxc.*del.*"
+      - ".*var.*lib.*lxc.*makina-states.*tmp.*"
+      - ".*spool.*cyrus.*backup_log.*"
+      - ".*var.*lib.*lxc.*rootfs.*"
+      - ".*var.*lock.*"
+      - ".*var.*log.*atop.*"
+      - ".*var.*run.*"
+      - ".*var.*tmp.*"
+      - ".*usr/portage.*"
+      - ".*var.*lib.*sabnzbd.*"
+      - ".*usr.*local.*portage.*packages"
+    exclude:
+      - "/dev"
+      - "/proc"
+      - "/sys"
+      - "/tmp/"
   vm:
     cross_filesystem:
+      - /boot
       - /backup
       - /data
       - /etc
@@ -688,6 +719,7 @@ backup_configurations:
       - /var
       - /var/makina
     include:
+      - /boot
       - /backup
       - /data
       - /etc
@@ -700,6 +732,33 @@ backup_configurations:
       - /static
       - /var
       - /var/makina
+    exclude_regex:
+      - ".*nobackup.*"
+      - ".*lost.found.*"
+      - ".*makina-states.*-lxc.*.tar.*xz.*"
+      - ".*srv.*mastersalt.*makina-states.*"
+      - ".*srv.*projects.*archives.*"
+      - ".*srv.*salt.*makina-states.*"
+      - ".*var.*cache.*apt.*"
+      - ".*var.*cache.*salt.*master.*"
+      - ".*var.*cache.*salt.*minion.*"
+      - ".*var.*lib.*apt.*lists.*"
+      - ".*var.*lib.*lxc.*del.*"
+      - ".*var.*lib.*lxc.*makina-states.*tmp.*"
+      - ".*spool.*cyrus.*backup_log.*"
+      - ".*var.*lib.*lxc.*rootfs.*"
+      - ".*var.*lock.*"
+      - ".*var.*log.*atop.*"
+      - ".*var.*run.*"
+      - ".*var.*tmp.*"
+      - ".*usr/portage.*"
+      - ".*var.*lib.*sabnzbd.*"
+      - ".*usr.*local.*portage.*packages"
+    exclude:
+      - "/dev"
+      - "/proc"
+      - "/sys"
+      - "/tmp/"
   provider2-1.mydomain.tld:
     provider24-1.mydomain.tld:
       include:
@@ -712,6 +771,7 @@ backup_configurations:
         - /var
         - /home
       exclude_regex:
+      - ".*nobackup.*"
         - "var.*cache.*salt.*master.*"
         - "var.*cache.*salt.*minion.*"
         - "makina-states-precise-lxc-.*.tar.xz"
@@ -731,70 +791,11 @@ backup_configurations:
         - "/var/run/saslauthd/mux"
         - "/var/run/slapd/ldapi"
         - /var/cache/apt/archives
-    provider3-99.mydomain.tld:
-      include:
-        - /
-      cross_filesystem:
-        - /srv
-        - /var
-        - /home
-      exclude_regex:
-        - "/home/users/.*/workspace"
-        - "/home/external/.*/workspace"
-        - "/home/users/.*/workspace"
-        - "/home/external/.*/workspace"
-      exclude:
-        - /var/log/atop
-        - "/backup"
-        - /var/cache/apt/archives
-        - "/dev"
-        - "/mnt"
-        - "/proc"
-        - "/sys"
-        - "/tmp"
-        - "/var/cache"
-        - "/var/local/backup/mysql/daily"
-        - "/var/local/backup/mysql/monthly"
-        - "/var/local/backup/mysql/weekly"
-        - "/var/lock"
-        - "/var/log"
-        - "/var/run"
-        - "/var/tmp"
-    prod-superproject.mydomain.tld:
-      ssh_gateway: provider24-1.mydomain.tld
-      include:
-        - /root/.ssh
-        - /home/*/.ssh
-        - /home/users/*/.ssh
-        - /srv
-        - /var
-        - /home
-        - /etc
-      cross_filesystem:
-        - /srv
-        - /home
-        - /var
-        - /root
-      exclude_regex:
-        - "var.*cache.*salt.*master.*"
-        - "var.*cache.*salt.*minion.*"
-        - "makina-states-precise-lxc-.*.tar.xz"
-      exclude:
-        - /var/log/atop
-        - "/dev"
-        - "/proc"
-        - /var/cache/apt/archives
-        - "/sys"
-        - "/tmp/"
-        - "/var/run/avahi-daemon/socket"
-        - "/var/run/dbus/system_bus_socket"
-        - "/var/run/fail2ban/fail2ban.sock"
-        - "/var/run/mysqld/mysqld.sock"
-        - "/var/run/nscd/socket"
-        - "/var/run/saslauthd/mux"
-        - "/var/run/slapd/ldapi"
    foo.makina-corpus.net:
       ssh_gateway: provider24-1.mydomain.tld
+      add_exclude_regex:
+        - "var.*cache.*salt.*master.*"
       include:
         - /backup
 
+# vim: set ft=yaml sts=2 ts=2 ai et:
