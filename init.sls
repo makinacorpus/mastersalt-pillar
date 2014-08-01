@@ -24,6 +24,11 @@ include:
   {% if salt['mc_pillar.is_burp_server'](id)%}
   - makina-states.burp
   {% endif %}
+  {% for kind in ['master', 'ui', 'pnp', 'nagvis'] %}
+  {% if salt['mc_pillar.is_supervision_kind'](id, kind) %}
+  - makina-states.supervision.{{kind}}
+  {% endif %}
+  {% endfor %}
   {% if (salt['mc_pillar.is_ldap_master'](id)
          or salt['mc_pillar.is_ldap_slave'](id)) %}
   - makina-states.slapd
