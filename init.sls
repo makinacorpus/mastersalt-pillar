@@ -88,9 +88,6 @@ include:
   {% if gconf.manage_snmpd %}
   - makina-states.snmpd
   {% endif %}
-  {% if gconf.manage_mails%}
-  - makina-states.mail
-  {% endif %}
   {% if vars.is_bm%}
   {%  for vt in vars.bms[vars.id] %}
   {%    if vt in vars.bm_vts_sls %}
