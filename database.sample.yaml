@@ -798,4 +798,28 @@ backup_configurations:
       include:
         - /backup
 
+
+# configure a isc-dhcpd server on an host
+# indexed by dhcp servers minion id
+dhcpd_conf:
+  foo.makina-foo.net:
+    conf:
+      domain_name: makina-foo.net
+      domain_name_servers: "10.2.253.1, 8.8.8.8"
+    subnets:
+      10.5.0.0:
+        netmask: 255.255.0.0
+        conf:
+          "range": 10.2.10.1 10.2.20.253
+          "option domain-name-servers": "10.2.1.1"
+          "option domain-name": '"makina-foo.net"'
+          "option routers": "10.2.1.1"
+          "option broadcast-address": "10.2.255.255"
+          "default-lease-time": "600"
+          "max-lease-time": "7200"
+    hosts:
+      tata:
+        "option subnet-mask": "255.255.0.0"
+        "hardware ethernet": "18:11:11:f2:22:13"
+        "fixed-address": "tata.makina-nantes.net"
 # vim: set ft=yaml sts=2 ts=2 ai et:
