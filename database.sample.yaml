@@ -92,6 +92,8 @@ configurations:
     mastersalt: provider1-dc1-1.mydomain.tld
     mastersaltdn: mastersalt.mydomain.tld
     mastersalt_port: 4606
+    cloud_control_lxc: true
+    cloud_control_kvm: true
     domain: mydomain.tld
     mastersalt_master: false
     cloud_master: false
@@ -624,6 +626,11 @@ backup_configuration_map:
   default-vm: vm
   foo.makina-corpus.net: foo.makina-corpus.net
 
+# per server mc_burp settings
+backup_server_configurations:
+  foo.bar.net:
+    server_conf.max_children: 2
+    server_conf.max_status_children: 2
 
 # salt not managed hosts that we backup
 backup_manual_hosts:
