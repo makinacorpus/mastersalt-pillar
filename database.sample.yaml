@@ -41,6 +41,11 @@ ldap_configurations:
       ssl: "start_tls"
 
 
+# override default settings gathered by mc_network
+network_settings:
+  foo.bar.net:
+    br0: {gateway: 192.168.1.1} 
+
 ldap_maps:
   default:
     cert_domain: ldap.foo.net
