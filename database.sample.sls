@@ -117,7 +117,6 @@ configurations:
     manage_shorewall: true
     manage_fail2ban: true
     manage_ntp_server: false
-    backup_mode: burp
     mail_mode: relay
     default_env: prod
     ldap_client: true
